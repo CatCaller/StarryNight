@@ -1,0 +1,446 @@
+/* Every sn-* class / data-sn-* attribute is applied by theme.js, which finds
+   the elements through fallback chains, so nothing here depends on Spotify's
+   hashed class names or test ids. Everything is scoped to .starrynight-root:
+   theme.js reads Spotify's untouched layout before that class goes on, and if
+   the script ever fails the app just falls back to stock Spotify. */
+
+.os-scrollbar,
+[class*="os-scrollbar"] {
+  --os-handle-border-radius: 16px !important;
+  --os-size: 8px !important;
+}
+
+/* grid-template-areas here is only a fallback; theme.js overrides it inline
+   with the area names Spotify actually uses */
+.starrynight-root {
+  background: linear-gradient(
+    180deg,
+    var(--spice-sidebar-alt) 0%,
+    var(--spice-sidebar) 100%
+  ) !important;
+  overflow: hidden;
+  grid-template-areas:
+    "top-banner global-nav global-nav"
+    "left-sidebar main-view now-playing-bar"
+    "left-sidebar main-view right-sidebar";
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  grid-template-rows: auto auto minmax(0, 1fr) !important;
+}
+
+/* fixed width so playbar content can never push the shared grid column wider */
+.starrynight-root > .sn-slot-playbar {
+  width: var(--starrynight-panel-width, 420px) !important;
+  min-width: 0 !important;
+  max-width: var(--starrynight-panel-width, 420px) !important;
+  margin: 0;
+  padding: 0;
+  background: none !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.starrynight-root > .sn-slot-nav {
+  background-color: #00000000 !important;
+  grid-area: 1 / 1 / 2 / -1 !important;
+}
+
+.starrynight-root > .sn-slot-main {
+  background-color: transparent !important;
+}
+
+.starrynight-root > .sn-slot-left,
+.starrynight-root > .sn-slot-left > *,
+.starrynight-root > .sn-slot-left *:has(.YourLibraryX),
+.starrynight-root .YourLibraryX {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* opaque full-panel layers found by theme.js (incl. their pseudo-elements) */
+.starrynight-root .sn-clear {
+  background-color: transparent !important;
+}
+
+.starrynight-root .sn-clear-gradient {
+  background-image: none !important;
+}
+
+.starrynight-root .sn-clear-before::before,
+.starrynight-root .sn-clear-after::after {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.starrynight-root > *::before {
+  background-color: transparent !important;
+}
+
+.starrynight-root .sn-panel-header {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+}
+
+.starrynight-root .sn-panel-header > .sn-panel-header-title {
+  padding-inline-end: 72px;
+  box-sizing: border-box;
+}
+
+/* dynamic per-page colours (playlist/artist headers) are inline styles;
+   encore boxes (cards) keep theirs whatever the encore version prefix is */
+.starrynight-root
+  > .sn-slot-main
+  [style*="background-color"]:not([style*="--"]):not([class*="-legacy-box"]):not(
+    [class*="-legacy-box"] *
+  ) {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.starrynight-root > .sn-slot-main [style*="top: 64px"],
+.starrynight-root > .sn-slot-main [role="presentation"]:has([role="columnheader"]) {
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.starrynight-root
+  [style*="--background-base"]:not([class*="-legacy-box"]):not(
+    [class*="-legacy-box"] *
+  ),
+.starrynight-root
+  [style*="--background-base"]:not([class*="-legacy-box"]):not(
+    [class*="-legacy-box"] *
+  )::after {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.starrynight-root > .sn-slot-main :has(> header) {
+  --background-base: transparent !important;
+}
+
+.starrynight-root [data-testid="artist-page"] > div > div,
+.starrynight-root [data-testid="playlist-page"] > div {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* ---------------------------------------------------------- playbar panel */
+
+.starrynight-root .sn-npb {
+  display: flex !important;
+  flex-direction: column;
+  width: var(--starrynight-panel-width, 420px);
+  min-width: 0;
+  max-width: 100%;
+  min-height: min(var(--starrynight-panel-width, 420px), 420px);
+  height: auto !important;
+}
+
+.starrynight-root .sn-npb-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  flex-shrink: 0;
+  width: var(--starrynight-panel-width, 420px);
+  min-width: 0;
+  max-width: 100%;
+  gap: 20px;
+  padding-block: 14px 18px;
+  box-sizing: border-box;
+}
+
+.starrynight-root .sn-npb-inner > .sn-npb-left,
+.starrynight-root .sn-npb-inner > .sn-npb-center,
+.starrynight-root .sn-npb-inner > .sn-npb-right {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+.starrynight-root .sn-npb-left > * {
+  width: 100%;
+}
+
+.starrynight-root .sn-widget {
+  width: 100%;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: center;
+  padding-top: 0;
+  margin-inline: 0;
+}
+
+.starrynight-root .sn-widget > :not(.sn-cover-slot) {
+  margin-block: 12px 0;
+}
+
+.starrynight-root .sn-npb-right > div {
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.starrynight-root .sn-cover-slot {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  margin-inline-end: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.starrynight-root .sn-cover-slot > div {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.starrynight-root .sn-cover {
+  display: block;
+  width: min(
+    220px,
+    calc(var(--starrynight-panel-width, 420px) * 0.524)
+  ) !important;
+  height: auto !important;
+  margin: auto;
+  aspect-ratio: 1 / 1;
+  background-color: #00000000;
+  box-shadow: 0 0 0px var(--spice-rgb-shadow);
+}
+
+.starrynight-root .sn-cover > div,
+.starrynight-root .sn-cover > div > div {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.starrynight-root .sn-cover img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: spin 25s linear infinite;
+  animation-play-state: paused;
+}
+
+.starrynight-root[data-sn-playing] .sn-cover img {
+  animation-play-state: running !important;
+}
+
+.starrynight-root .sn-track-info {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.starrynight-root .sn-track-info * {
+  text-align: center;
+  justify-content: center;
+}
+
+.starrynight-root .sn-controls {
+  display: flex !important;
+  flex-direction: column;
+  width: 100%;
+}
+
+.starrynight-root .sn-controls > .sn-controls-buttons {
+  order: 2;
+  justify-content: center;
+}
+
+.starrynight-root .sn-controls > .sn-progress {
+  order: 1;
+}
+
+.starrynight-root .sn-controls-buttons > div {
+  flex: 0 1 auto;
+  justify-content: center;
+}
+
+/* ---------------------------------------------------------- sky */
+
+.starrynight-bg-container {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+}
+
+.LayoutResizer__resize-bar,
+.LayoutResizer__resize-bar *,
+[class*="resize-bar"],
+[class*="resize-bar"] * {
+  outline: none !important;
+}
+
+@keyframes twinkle1 {
+  0% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes twinkle2 {
+  0% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes twinkle3 {
+  0% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes twinkle4 {
+  0% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  20% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+
+  40% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  60% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  80% {
+    box-shadow: 0px 0px 8px 2px var(--spice-star-glow);
+  }
+
+  100% {
+    box-shadow: 0px 0px -8px 2px var(--spice-star-glow);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+Pure CSS Shooting Star Animation Effect Copyright (c) 2021 by Delroy Prithvi (https://codepen.io/delroyprithvi/pen/LYyJROR)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+.shootingstar {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--spice-shooting-star);
+  border-radius: 50%;
+  animation: animate 3s linear;
+  left: initial;
+  z-index: -1;
+}
+
+.shootingstar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--spice-shooting-star), transparent);
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(315deg) translateX(0);
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(315deg) translateX(-1500px);
+    opacity: 0;
+  }
+}
